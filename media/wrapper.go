@@ -1,0 +1,4 @@
+package media
+
+func Register(){
+}

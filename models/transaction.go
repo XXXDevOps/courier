@@ -1,12 +1,12 @@
 package models
 
 type Transaction struct {
-	Senders Senders
+	Sender Sender
 	Receivers Receivers
 	Message Message
-	Media Media
+	Cc Cc
 }
 
-func (t *Transaction)Run()error{
-	return t.Media.Send(t.Senders, t.Receivers, t.Message)
+func NewTransaction(sender Sender, receivers Receivers, message Message, cc Cc)*Transaction{
+	return &Transaction{sender, receivers, message, cc}
 }

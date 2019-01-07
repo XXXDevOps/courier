@@ -1,17 +1,39 @@
 package models
 
-type Receiver struct {
-	Transceiver
-}
+import "strings"
 
-type Sender struct {
-	Transceiver
-}
+
+
 
 type Transceiver struct {
-	Name string	`json name`
-	Address string	`json address`
+	Name string	`json:"name"`
+	Address string	`json:"address"`
 }
 
-type Senders []Sender
-type Receivers []Receiver
+type Sender Transceiver
+type Receivers []Transceiver
+type Cc []Transceiver
+
+func (rs Receivers)ToString()string{
+	addresses := []string{}
+	splitter := ";"
+	for _,v:=range rs{
+		addresses = append(addresses, v.Address)
+	}
+	return strings.Join(addresses,splitter)
+}
+
+func (rs Receivers)Addresses()[]string{
+	addresses := []string{}
+	for _,v:=range rs{
+		addresses = append(addresses, v.Address)
+	}
+	return addresses
+}
+func (cc Cc)Addresses()[]string{
+	addresses := []string{}
+	for _,v:=range cc{
+		addresses = append(addresses, v.Address)
+	}
+	return addresses
+}

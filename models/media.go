@@ -1,7 +1,9 @@
 package models
 
 type Media interface {
-	Send(Senders,Receivers,Message)error
-	Callback()
-	ErrorCallback()
+	Send(*Transaction)error
+	GetName()string
+	Init()error
+	Close()error
+	Redial()error
 }

@@ -1,22 +1,23 @@
 package webserver
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 
 func Start(){
-	r := gin.Default()
-	v1 := r.Group("/v1")
+	//r := gin.Default()
+	r := gin.New()
+	v1 := r.Group("/v1",V1Protocol())
 	{
 		v1.GET("/status",status)
+		v1.POST("/send",send)
 	}
-	r.Use(gin.Logger())
-	r.Use(gin.Recovery())
+	//r.Use(gin.Logger())
+	//r.Use(gin.Recovery())
 	r.Run(":9091")
 }
 
 
 func status(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"message": "OK"})
+	c.Set(DataField, true)
 }

@@ -2,6 +2,6 @@ package models
 
 
 type Message struct {
-	Content string `json content`
-	Subject string `json subject`
+	Content string `json:"content"`
+	Subject string `json:"subject"`
 }

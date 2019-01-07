@@ -1,0 +1,8 @@
+[media.nioint-smtp]
+type="smtp"
+host="smtp.nevint.com"
+port=25
+
+[media.nioint-smtp2]
+type="smtp"
+host="smtp.nevint.com"
