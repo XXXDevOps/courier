@@ -1,13 +1,11 @@
 package media
 
 import (
-	"github.com/NioDevOps/courier/models"
 	"fmt"
+	"github.com/NioDevOps/courier/models"
 )
 
-
-
-var MediaCenter = &Center{Map:map[string]models.Media{}}
+var MediaCenter = &Center{Map: map[string]models.Media{}}
 
 type Center struct {
 	Map map[string]models.Media
@@ -16,33 +14,31 @@ type BaseMedia struct {
 	Name string
 }
 
-func GetMediaCenter()*Center{
+func GetMediaCenter() *Center {
 	return MediaCenter
 }
 
-func (cs *Center)Register(m models.Media)(error){
-	fmt.Println(m)
+func (cs *Center) Register(m models.Media) error {
 	_, ok := cs.Map[m.GetName()]
-	var err error= nil
-	if ok{
+	var err error = nil
+	if ok {
 		err = fmt.Errorf("media named '%s' is already registed", m.GetName())
-	}else{
+	} else {
 		cs.Map[m.GetName()] = m
 	}
 	fmt.Println(cs.Map)
 	return err
 }
 
-func (cs *Center)Get(name string)(models.Media,error){
+func (cs *Center) Get(name string) (models.Media, error) {
 	m, ok := cs.Map[name]
-	var err error= nil
-	if !ok{
+	var err error = nil
+	if !ok {
 		err = fmt.Errorf("no media named '%s'", name)
 	}
-	return m,err
+	return m, err
 }
 
-
-func (bm *BaseMedia)GetName()string{
+func (bm *BaseMedia) GetName() string {
 	return bm.Name
 }

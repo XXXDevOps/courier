@@ -1,34 +1,29 @@
 package cfg
 
-
 import (
-"flag"
-"fmt"
-"github.com/BurntSushi/toml"
-log "github.com/Sirupsen/logrus"
-"os"
-"github.com/NioDevOps/courier/version"
+	"flag"
+	"fmt"
+	"github.com/BurntSushi/toml"
+	"github.com/NioDevOps/courier/version"
+	log "github.com/Sirupsen/logrus"
+	"os"
 )
-
 
 var LOGLEVELMAP = map[string]log.Level{"debug": log.DebugLevel, "info": log.InfoLevel, "warning": log.WarnLevel, "error": log.ErrorLevel, "fatal": log.FatalLevel, "panic": log.PanicLevel}
 
 type MainCfg struct {
-	LogCfg LogCfgStruct `toml:"log"`
-	MediaCfg map[string]*MediaCfgStruct	`toml:"Media"`
-	Daemon bool
-	Debug  bool
+	LogCfg   LogCfgStruct               `toml:"log"`
+	MediaCfg map[string]*MediaCfgStruct `toml:"Media"`
+	Daemon   bool
+	Debug    bool
 }
-
 
 //log config struct for toml
 type LogCfgStruct struct {
 	Level   string    `toml:"level"`
 	LevelId log.Level `toml:"levelId"`
+	LogPath string    `toml:"path"`
 }
-
-
-
 
 //Load all config
 func LoadCfg() *MainCfg {
@@ -57,7 +52,7 @@ func LoadCfg() *MainCfg {
 		os.Exit(-1)
 	}
 	//config  media
-	for k,v := range mainCfgObj.MediaCfg {
+	for k, v := range mainCfgObj.MediaCfg {
 		v.Name = k
 	}
 	//config log
@@ -66,7 +61,7 @@ func LoadCfg() *MainCfg {
 	}
 	levelId, err := log.ParseLevel(mainCfgObj.LogCfg.Level)
 	if err != nil {
-		fmt.Printf(err.Error()+"\n")
+		fmt.Printf(err.Error() + "\n")
 		os.Exit(-1)
 	} else {
 		mainCfgObj.LogCfg.LevelId = levelId
