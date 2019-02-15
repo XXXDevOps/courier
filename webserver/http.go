@@ -10,7 +10,9 @@ func Start() {
 	v1 := r.Group("/v1", V1Protocol())
 	{
 		v1.GET("/status", status)
-		v1.POST("/send", send)
+		v1.POST("/send", send_async)
+		v1.POST("/send_sync", send)
+		v1.POST("/send_async", send_async)
 	}
 	//r.Use(gin.Logger())
 	//r.Use(gin.Recovery())

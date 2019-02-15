@@ -7,15 +7,18 @@ import (
 	"github.com/NioDevOps/courier/version"
 	log "github.com/Sirupsen/logrus"
 	"os"
+	"time"
 )
 
 var LOGLEVELMAP = map[string]log.Level{"debug": log.DebugLevel, "info": log.InfoLevel, "warning": log.WarnLevel, "error": log.ErrorLevel, "fatal": log.FatalLevel, "panic": log.PanicLevel}
 
 type MainCfg struct {
-	LogCfg   LogCfgStruct               `toml:"log"`
-	MediaCfg map[string]*MediaCfgStruct `toml:"Media"`
-	Daemon   bool
-	Debug    bool
+	LogCfg    LogCfgStruct               `toml:"log"`
+	RedisCfg  RedisCfgStruct             `toml:"redis"`
+	WorkerCfg WorkerCfgStruct            `toml:"worker"`
+	MediaCfg  map[string]*MediaCfgStruct `toml:"Media"`
+	Daemon    bool
+	Debug     bool
 }
 
 //log config struct for toml
@@ -23,6 +26,20 @@ type LogCfgStruct struct {
 	Level   string    `toml:"level"`
 	LevelId log.Level `toml:"levelId"`
 	LogPath string    `toml:"path"`
+}
+
+//redis config struct for toml
+type RedisCfgStruct struct {
+	Host        string        `toml:"host"`
+	Port        int           `toml:"port"`
+	PoolSize    int           `toml:"pool_size"`
+	IdleTimeout time.Duration `toml:"tdle_timeout"`
+}
+
+//worker config struct for toml
+type WorkerCfgStruct struct {
+	PoolSize    int `toml:"pool_size"`
+	ChannelSize int `toml:"channel_size"`
 }
 
 //Load all config

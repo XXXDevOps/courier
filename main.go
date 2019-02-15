@@ -1,10 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"github.com/NioDevOps/courier/cfg"
 	"github.com/NioDevOps/courier/media"
+	"github.com/NioDevOps/courier/models"
 	"github.com/NioDevOps/courier/webserver"
+	"github.com/NioDevOps/courier/worker"
 	log "github.com/Sirupsen/logrus"
 	"os"
 )
@@ -12,8 +13,12 @@ import (
 func main() {
 	mcfg := cfg.LoadCfg()
 
+	models.Init(mcfg.RedisCfg)
 	InitLogger(mcfg.LogCfg)
 	RegisterAndInitAllMedia(mcfg.MediaCfg)
+
+	worker.Init(mcfg.WorkerCfg)
+
 	webserver.Start()
 }
 
@@ -24,7 +29,7 @@ func InitLogger(c cfg.LogCfgStruct) {
 
 	logPath := c.LogPath
 
-	file, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY, 0666)
+	file, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err == nil {
 		log.SetOutput(file)
 	} else {
